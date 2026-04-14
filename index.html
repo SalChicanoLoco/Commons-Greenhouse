@@ -3,282 +3,898 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>CGS-C1 · Three Track Strategy</title>
+<title>CGS-C1 · The Engineering — Sena's AI Collective</title>
+<meta name="description" content="Complete engineering specification for the Community Greenhouse System C1. Passive solar, aquaponics, earth thermal loop. Built for the high desert of New Mexico.">
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;900&family=Barlow:wght@300;400;500&family=DM+Mono:wght@400;500&display=swap');
-:root{
-  --void:#0c0e09; --deep:#141a0f; --forest:#1d2a16;
-  --lime:#7ab83a; --sun:#f0c040; --rust:#c2603a;
-  --paper:#f4f0e4; --fog:rgba(244,240,228,0.6); --dim:rgba(244,240,228,0.3);
-  --rule:rgba(122,184,58,0.15);
-  --cond:'Barlow Condensed',sans-serif;
-  --sans:'Barlow',sans-serif;
-  --mono:'DM Mono',monospace;
+@import url('https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Barlow+Condensed:wght@300;400;600;700;800;900&family=Barlow:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap');
+
+:root {
+  --void:    #0b0d08;
+  --deep:    #121508;
+  --forest:  #1a2412;
+  --moss:    #243318;
+  --lime:    #7ab83a;
+  --sun:     #e8b830;
+  --soil:    #7a4e28;
+  --clay:    #b86838;
+  --water:   #3a7890;
+  --paper:   #f2eed8;
+  --fog:     rgba(242,238,216,0.68);
+  --dim:     rgba(242,238,216,0.32);
+  --ghost:   rgba(242,238,216,0.12);
+  --rule:    rgba(122,184,58,0.18);
+  --serif:   'Libre Baskerville', Georgia, serif;
+  --cond:    'Barlow Condensed', sans-serif;
+  --sans:    'Barlow', sans-serif;
+  --mono:    'DM Mono', monospace;
 }
+
 *{margin:0;padding:0;box-sizing:border-box;}
-body{background:var(--void);color:var(--paper);font-family:var(--sans);font-size:15px;line-height:1.7;}
-.page{max-width:960px;margin:0 auto;padding:48px 32px 80px;}
+html{scroll-behavior:smooth;}
 
-/* HEADER */
-.hdr{border-bottom:2px solid var(--lime);padding-bottom:24px;margin-bottom:48px;}
-.hdr-kicker{font-family:var(--mono);font-size:9px;letter-spacing:4px;color:var(--lime);text-transform:uppercase;margin-bottom:12px;}
-.hdr-title{font-family:var(--cond);font-size:clamp(36px,6vw,64px);font-weight:900;line-height:1;text-transform:uppercase;color:var(--paper);}
-.hdr-title span{color:var(--lime);}
-.hdr-sub{font-family:var(--sans);font-size:14px;color:var(--fog);margin-top:12px;max-width:600px;line-height:1.6;border-left:3px solid var(--rust);padding-left:14px;}
+body {
+  background: var(--void);
+  color: var(--paper);
+  font-family: var(--sans);
+  line-height: 1.75;
+}
 
-/* TRACK HEADERS */
-.track{margin-bottom:56px;}
-.track-label{display:flex;align-items:center;gap:14px;margin-bottom:24px;}
-.tl-num{font-family:var(--mono);font-size:9px;color:var(--lime);letter-spacing:3px;}
-.tl-line{flex:1;height:1px;background:var(--rule);}
-.tl-name{font-family:var(--cond);font-size:11px;font-weight:700;letter-spacing:4px;text-transform:uppercase;color:var(--lime);}
-.tl-name.sun{color:var(--sun);}
-.tl-name.rust{color:var(--rust);}
+/* ── COVER ── */
+.cover {
+  min-height: 100vh;
+  display: flex; flex-direction: column; justify-content: flex-end;
+  position: relative; overflow: hidden;
+  background: var(--void);
+}
 
-.track-title{font-family:var(--cond);font-size:clamp(24px,4vw,38px);font-weight:900;text-transform:uppercase;line-height:1.1;margin-bottom:10px;}
-.track-deck{font-size:14px;color:var(--fog);max-width:600px;margin-bottom:24px;line-height:1.65;}
+.cover-bg {
+  position: absolute; inset: 0; z-index: 0;
+  background:
+    radial-gradient(ellipse at 60% 40%, rgba(26,36,18,0.9) 0%, transparent 55%),
+    radial-gradient(ellipse at 10% 80%, rgba(58,120,144,0.15) 0%, transparent 45%),
+    radial-gradient(ellipse at 90% 10%, rgba(122,184,58,0.1) 0%, transparent 40%),
+    linear-gradient(170deg, var(--void) 0%, var(--forest) 50%, var(--void) 100%);
+}
 
-/* CARDS */
-.card-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:14px;margin-bottom:24px;}
-.card{background:var(--forest);border:1px solid var(--rule);padding:20px;border-top:3px solid var(--lime);}
-.card.sun{border-top-color:var(--sun);}
-.card.rust{border-top-color:var(--rust);}
-.card-label{font-family:var(--mono);font-size:8px;letter-spacing:2px;text-transform:uppercase;color:var(--lime);margin-bottom:8px;}
-.card.sun .card-label{color:var(--sun);}
-.card.rust .card-label{color:var(--rust);}
-.card-title{font-family:var(--cond);font-size:17px;font-weight:700;color:var(--paper);margin-bottom:8px;}
-.card-body{font-size:12px;color:var(--fog);line-height:1.6;}
+/* grid overlay */
+.cover-grid {
+  position: absolute; inset: 0; z-index: 0;
+  background-image:
+    linear-gradient(rgba(122,184,58,0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(122,184,58,0.03) 1px, transparent 1px);
+  background-size: 44px 44px;
+}
 
-/* ACTION BOX */
-.action-box{background:var(--deep);border:1px solid var(--rule);border-left:4px solid var(--lime);padding:22px 26px;margin-bottom:20px;}
-.action-box.sun{border-left-color:var(--sun);}
-.action-box.rust{border-left-color:var(--rust);}
-.ab-label{font-family:var(--mono);font-size:8px;letter-spacing:3px;text-transform:uppercase;color:var(--lime);margin-bottom:12px;}
-.action-box.sun .ab-label{color:var(--sun);}
-.action-box.rust .ab-label{color:var(--rust);}
-.ab-body{font-size:13px;color:var(--fog);line-height:1.75;}
-.ab-body strong{color:var(--paper);font-family:var(--cond);font-size:14px;letter-spacing:0.3px;}
+/* animated glow orb */
+.cover-orb {
+  position: absolute;
+  width: 700px; height: 700px; border-radius: 50%;
+  background: radial-gradient(circle, rgba(26,36,18,0.9) 0%, transparent 70%);
+  right: -200px; top: -150px; z-index: 0;
+  animation: orb 10s ease-in-out infinite;
+}
+@keyframes orb{0%,100%{opacity:0.5;transform:scale(1)}50%{opacity:0.8;transform:scale(1.08)}}
 
-/* SCRIPT BOX */
-.script-box{background:#0a0c08;border:1px solid var(--rule);padding:20px 24px;margin-top:14px;font-family:var(--mono);font-size:12px;color:var(--fog);line-height:1.9;border-radius:2px;}
-.script-box .name{color:var(--lime);font-weight:700;}
-.script-box .sun-name{color:var(--sun);font-weight:700;}
+.cover-content {
+  position: relative; z-index: 2;
+  padding: 0 64px 64px;
+  max-width: 1000px;
+}
 
-/* DIVIDER */
-.divider{height:1px;background:var(--rule);margin:40px 0;}
+.vol-tag {
+  font-family: var(--mono); font-size: 9px;
+  letter-spacing: 5px; text-transform: uppercase;
+  color: var(--lime); margin-bottom: 20px;
+  display: flex; align-items: center; gap: 14px;
+}
+.vol-tag::before { content:''; width:40px; height:1px; background:var(--lime); }
 
-/* REMOTE NOTE */
-.remote-note{background:rgba(194,96,58,0.08);border:1px solid rgba(194,96,58,0.2);border-left:4px solid var(--rust);padding:18px 22px;margin-bottom:20px;}
-.rn-label{font-family:var(--mono);font-size:8px;letter-spacing:3px;text-transform:uppercase;color:var(--rust);margin-bottom:8px;}
-.rn-body{font-size:13px;color:var(--fog);line-height:1.7;}
+.cover-title {
+  font-family: var(--cond);
+  font-size: clamp(60px, 9vw, 120px);
+  font-weight: 900; line-height: 0.88;
+  letter-spacing: -2px; text-transform: uppercase;
+  margin-bottom: 28px;
+}
+.cover-title .g { color: var(--lime); }
+.cover-title .w { color: var(--sun); }
+.cover-title .dim { color: rgba(242,238,216,0.4); }
 
-/* FOOTER */
-.footer{border-top:1px solid var(--rule);padding-top:24px;font-family:var(--mono);font-size:9px;color:var(--dim);letter-spacing:2px;text-transform:uppercase;display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px;}
+.cover-deck {
+  font-family: var(--serif); font-style: italic;
+  font-size: clamp(15px, 1.8vw, 19px);
+  color: var(--fog); max-width: 600px; line-height: 1.65;
+  border-left: 3px solid var(--lime); padding-left: 18px;
+  margin-bottom: 40px;
+}
 
-@media(max-width:600px){.page{padding:32px 18px 60px;}.footer{flex-direction:column;}}
+.cover-stats {
+  display: flex; gap: 40px; flex-wrap: wrap;
+}
+
+.cs-item { display: flex; flex-direction: column; gap: 3px; }
+.cs-label { font-family: var(--mono); font-size: 8px; letter-spacing: 3px; text-transform: uppercase; color: var(--lime); }
+.cs-val { font-family: var(--cond); font-size: 18px; font-weight: 700; color: var(--paper); }
+
+/* scroll hint */
+.scroll {
+  position: absolute; bottom: 28px; right: 64px; z-index: 2;
+  font-family: var(--mono); font-size: 8px; letter-spacing: 3px;
+  text-transform: uppercase; color: var(--dim);
+  writing-mode: vertical-rl;
+}
+
+/* ── TOC BAR ── */
+.toc-bar {
+  background: var(--forest);
+  border-top: 2px solid var(--lime);
+  border-bottom: 1px solid var(--rule);
+  padding: 0 64px;
+  display: flex; gap: 0; overflow-x: auto;
+}
+.toc-bar::-webkit-scrollbar { height: 3px; }
+.toc-bar::-webkit-scrollbar-thumb { background: var(--rule); }
+
+.toc-item {
+  font-family: var(--mono); font-size: 9px;
+  letter-spacing: 2px; text-transform: uppercase;
+  color: var(--dim); padding: 14px 24px;
+  white-space: nowrap; text-decoration: none;
+  border-right: 1px solid var(--rule);
+  transition: all 0.2s;
+}
+.toc-item:hover { color: var(--lime); background: rgba(122,184,58,0.05); }
+.toc-item:first-child { padding-left: 0; }
+
+/* ── PAGE ── */
+.page { max-width: 980px; margin: 0 auto; padding: 0 48px; }
+
+/* ── SECTION ── */
+.section { padding: 72px 0 0; }
+
+.sec-marker {
+  display: flex; align-items: center; gap: 16px; margin-bottom: 32px;
+}
+.sec-n { font-family: var(--mono); font-size: 9px; color: var(--lime); letter-spacing: 3px; }
+.sec-line { flex: 1; height: 1px; background: var(--rule); }
+.sec-name { font-family: var(--cond); font-size: 11px; font-weight: 700; letter-spacing: 4px; text-transform: uppercase; color: var(--lime); }
+
+.sec-name.water { color: var(--water); }
+.sec-n.water { color: var(--water); }
+.sec-line.water { background: rgba(58,120,144,0.2); }
+
+.sec-name.sun { color: var(--sun); }
+.sec-n.sun { color: var(--sun); }
+.sec-line.sun { background: rgba(232,184,48,0.2); }
+
+.sec-name.soil { color: var(--clay); }
+.sec-n.soil { color: var(--clay); }
+.sec-line.soil { background: rgba(184,104,56,0.2); }
+
+.sec-title {
+  font-family: var(--cond);
+  font-size: clamp(32px, 5vw, 56px);
+  font-weight: 900; text-transform: uppercase;
+  line-height: 1; letter-spacing: -0.5px;
+  margin-bottom: 16px;
+}
+
+.sec-deck {
+  font-family: var(--serif); font-style: italic;
+  font-size: 16px; color: var(--fog);
+  max-width: 620px; line-height: 1.65;
+  margin-bottom: 36px;
+}
+
+/* ── BODY TEXT ── */
+.body {
+  font-family: var(--serif);
+  font-size: 17px; line-height: 1.85;
+  color: var(--fog); max-width: 680px;
+  margin-bottom: 36px;
+}
+.body p { margin-bottom: 1.3em; }
+.body p:first-child::first-letter {
+  font-family: var(--cond); font-size: 66px; font-weight: 900;
+  float: left; line-height: 0.78; margin: 8px 10px 0 0;
+  color: var(--lime); text-transform: uppercase;
+}
+.body em { font-style: italic; color: var(--paper); }
+.body strong { font-style: normal; font-family: var(--sans); font-size: 14px; font-weight: 600; color: var(--sun); letter-spacing: 0.3px; }
+
+/* ── DIAGRAM: SVG-based cross sections ── */
+.diagram-wrap {
+  margin: 40px 0; background: var(--deep);
+  border: 1px solid var(--rule); padding: 32px;
+}
+.dw-label {
+  font-family: var(--mono); font-size: 9px; letter-spacing: 3px;
+  text-transform: uppercase; color: var(--lime); margin-bottom: 24px;
+}
+.dw-label.water { color: var(--water); }
+.dw-label.sun { color: var(--sun); }
+
+svg { width: 100%; height: auto; display: block; }
+
+/* ── SPEC TABLE ── */
+.spec-block {
+  background: var(--forest); border: 1px solid var(--rule);
+  border-left: 4px solid var(--lime); padding: 28px 32px;
+  margin: 32px 0;
+}
+.spec-block.water { border-left-color: var(--water); }
+.spec-block.sun { border-left-color: var(--sun); }
+.spec-block.soil { border-left-color: var(--clay); }
+
+.sb-title {
+  font-family: var(--mono); font-size: 9px; letter-spacing: 3px;
+  text-transform: uppercase; color: var(--lime); margin-bottom: 20px;
+}
+.spec-block.water .sb-title { color: var(--water); }
+.spec-block.sun .sb-title { color: var(--sun); }
+.spec-block.soil .sb-title { color: var(--clay); }
+
+.spec-rows { display: flex; flex-direction: column; gap: 0; }
+.spec-row {
+  display: flex; justify-content: space-between; align-items: baseline;
+  padding: 9px 0; border-bottom: 1px solid var(--ghost);
+  font-size: 14px; gap: 20px;
+}
+.spec-row:last-child { border-bottom: none; }
+.sr-key { color: var(--dim); font-family: var(--sans); flex: 1; }
+.sr-val { font-family: var(--mono); color: var(--paper); font-size: 13px; text-align: right; }
+.sr-val.good { color: var(--lime); }
+.sr-val.warn { color: var(--sun); }
+.sr-val.crit { color: var(--clay); }
+
+/* ── PULL QUOTE ── */
+.pull {
+  margin: 48px 0; padding: 28px 36px;
+  border-top: 2px solid var(--lime); border-bottom: 1px solid var(--rule);
+  position: relative;
+}
+.pull::before {
+  content: '"'; position: absolute; top: -24px; left: 28px;
+  font-family: var(--cond); font-size: 90px; font-weight: 900;
+  color: var(--lime); line-height: 1;
+}
+.pq { font-family: var(--cond); font-size: clamp(20px,2.8vw,28px); font-weight: 700; line-height: 1.3; color: var(--paper); margin-bottom: 10px; }
+.pq-src { font-family: var(--mono); font-size: 9px; letter-spacing: 2px; text-transform: uppercase; color: var(--lime); }
+
+/* ── BOM TABLE ── */
+.bom {
+  width: 100%; border-collapse: collapse;
+  margin: 28px 0; font-size: 13px;
+}
+.bom th {
+  font-family: var(--mono); font-size: 8px; letter-spacing: 2px;
+  text-transform: uppercase; color: var(--lime);
+  border-bottom: 2px solid var(--lime); padding: 10px 14px;
+  text-align: left; background: var(--forest);
+}
+.bom td { padding: 10px 14px; border-bottom: 1px solid var(--ghost); color: var(--fog); }
+.bom tr:last-child td { border-bottom: none; }
+.bom .total td { color: var(--sun); font-family: var(--mono); font-size: 13px; border-top: 1px solid var(--sun); }
+.bom .free { color: var(--lime); }
+
+/* ── PHASE TIMELINE ── */
+.timeline { margin: 32px 0; }
+.tl-row { display: flex; gap: 16px; margin-bottom: 12px; align-items: flex-start; }
+.tl-day {
+  font-family: var(--mono); font-size: 10px; color: var(--lime);
+  width: 80px; flex-shrink: 0; padding-top: 2px;
+}
+.tl-bar { flex: 1; }
+.tl-title { font-family: var(--cond); font-size: 16px; font-weight: 700; color: var(--paper); }
+.tl-detail { font-size: 12px; color: var(--dim); margin-top: 2px; line-height: 1.5; }
+.tl-connector { width: 1px; background: var(--rule); height: 20px; margin-left: 38px; margin-top: -4px; margin-bottom: 0; }
+
+/* ── RULE BOX (warnings) ── */
+.rule-box {
+  background: rgba(184,104,56,0.08); border: 1px solid rgba(184,104,56,0.2);
+  border-left: 4px solid var(--clay); padding: 20px 24px; margin: 28px 0;
+}
+.rb-label { font-family: var(--mono); font-size: 8px; letter-spacing: 3px; text-transform: uppercase; color: var(--clay); margin-bottom: 10px; }
+.rb-body { font-size: 13px; color: var(--fog); line-height: 1.7; }
+.rb-body li { margin-left: 16px; margin-bottom: 4px; }
+
+/* ── UPCYCLE BOX ── */
+.upcycle-box {
+  background: rgba(122,184,58,0.05); border: 1px solid var(--rule);
+  padding: 24px 28px; margin: 28px 0;
+}
+.ub-label { font-family: var(--mono); font-size: 8px; letter-spacing: 3px; text-transform: uppercase; color: var(--lime); margin-bottom: 16px; }
+.ub-grid { display: grid; grid-template-columns: repeat(auto-fill,minmax(200px,1fr)); gap: 16px; }
+.ub-item { }
+.ub-buy { font-family: var(--mono); font-size: 10px; color: var(--clay); text-decoration: line-through; margin-bottom: 4px; }
+.ub-swap { font-family: var(--cond); font-size: 14px; font-weight: 700; color: var(--lime); }
+.ub-src { font-size: 11px; color: var(--dim); margin-top: 2px; }
+
+/* ── AQUAPONICS FLOW ── */
+.aq-flow { background: var(--deep); border: 1px solid var(--rule); padding: 28px 32px; margin: 32px 0; }
+.af-label { font-family: var(--mono); font-size: 9px; letter-spacing: 3px; text-transform: uppercase; color: var(--water); margin-bottom: 20px; }
+.af-steps { display: flex; flex-direction: column; gap: 0; }
+.af-step { display: flex; gap: 16px; align-items: flex-start; padding: 10px 0; border-bottom: 1px solid var(--ghost); }
+.af-step:last-child { border-bottom: none; }
+.af-num { font-family: var(--mono); font-size: 11px; color: var(--water); width: 28px; flex-shrink: 0; padding-top: 2px; }
+.af-name { font-family: var(--cond); font-size: 15px; font-weight: 700; color: var(--paper); margin-bottom: 2px; }
+.af-desc { font-size: 12px; color: var(--dim); line-height: 1.5; }
+.af-arrow { font-family: var(--mono); font-size: 11px; color: var(--dim); padding: 0 0 0 44px; }
+
+/* ── GRANT BLOCK ── */
+.grant-block { background: rgba(232,184,48,0.06); border: 1px solid rgba(232,184,48,0.2); border-left: 4px solid var(--sun); padding: 24px 28px; margin: 32px 0; }
+.gb-label { font-family: var(--mono); font-size: 8px; letter-spacing: 3px; text-transform: uppercase; color: var(--sun); margin-bottom: 16px; }
+.grant-row { display: flex; gap: 14px; padding: 10px 0; border-bottom: 1px solid rgba(232,184,48,0.1); align-items: flex-start; }
+.grant-row:last-child { border-bottom: none; }
+.gr-tag { font-family: var(--mono); font-size: 9px; padding: 3px 8px; background: rgba(232,184,48,0.12); color: var(--sun); white-space: nowrap; flex-shrink: 0; margin-top: 2px; }
+.gr-text { font-size: 13px; color: var(--fog); line-height: 1.5; }
+.gr-text strong { color: var(--paper); }
+
+/* ── FOOTER ── */
+.paper-foot {
+  margin-top: 80px; border-top: 2px solid var(--rule);
+  padding: 40px 0 64px;
+  display: flex; justify-content: space-between; align-items: flex-start;
+  flex-wrap: wrap; gap: 24px;
+}
+.pf-brand { font-family: var(--cond); font-size: 22px; font-weight: 900; color: var(--lime); }
+.pf-meta { font-family: var(--mono); font-size: 9px; letter-spacing: 2px; text-transform: uppercase; color: var(--dim); line-height: 2.2; text-align: right; }
+
+/* ── RESPONSIVE ── */
+@media(max-width:700px){
+  .cover-content{padding:0 24px 48px;}
+  .toc-bar{padding:0 20px;}
+  .page{padding:0 20px;}
+  .cover-title{font-size:clamp(48px,14vw,80px);}
+  .bom th,.bom td{padding:8px 10px;font-size:11px;}
+  .paper-foot{flex-direction:column;}
+  .pf-meta{text-align:left;}
+  .scroll{display:none;}
+  .spec-row{flex-direction:column;gap:4px;}
+  .sr-val{text-align:left;}
+}
 </style>
 </head>
 <body>
+
+<!-- ══ COVER ══ -->
+<div class="cover">
+  <div class="cover-grid"></div>
+  <div class="cover-orb"></div>
+  <div class="cover-bg"></div>
+
+  <div class="cover-content">
+    <div class="vol-tag">CGS-C1 · Vol. II · The Engineering · Sena's AI Collective · 2026</div>
+    <h1 class="cover-title">
+      <span class="dim">BUILD</span><br>
+      THE <span class="g">GREEN</span><span class="w">HOUSE</span>
+    </h1>
+    <p class="cover-deck">
+      Every material. Every angle. Every joint. The complete engineering reference for the Community Greenhouse System — from earth berm to aquaponic spine to the physics of why this works in a high-desert wind.
+    </p>
+    <div class="cover-stats">
+      <div class="cs-item"><span class="cs-label">Footprint</span><span class="cs-val">16' × 32' Phase 0</span></div>
+      <div class="cs-item"><span class="cs-label">Latitude</span><span class="cs-val">35.5°N · 87508</span></div>
+      <div class="cs-item"><span class="cs-label">Glazing Angle</span><span class="cs-val">50° from horizontal</span></div>
+      <div class="cs-item"><span class="cs-label">Target Cost</span><span class="cs-val">$500 – $3,500</span></div>
+      <div class="cs-item"><span class="cs-label">License</span><span class="cs-val">CC-BY 4.0 Open</span></div>
+    </div>
+  </div>
+  <div class="scroll">Scroll</div>
+</div>
+
+<!-- ══ TOC ══ -->
+<div class="toc-bar">
+  <a href="#orientation" class="toc-item">01 · Orientation</a>
+  <a href="#structure" class="toc-item">02 · Structure</a>
+  <a href="#envelope" class="toc-item">03 · Envelope</a>
+  <a href="#thermal" class="toc-item">04 · Thermal</a>
+  <a href="#aquaponics" class="toc-item">05 · Aquaponics</a>
+  <a href="#upcycle" class="toc-item">06 · Upcycle</a>
+  <a href="#sequence" class="toc-item">07 · Build Order</a>
+  <a href="#grants" class="toc-item">08 · Grants</a>
+</div>
+
 <div class="page">
 
-  <!-- HEADER -->
-  <div class="hdr">
-    <div class="hdr-kicker">CGS-C1 · NM Socialists · Three-Track Strategy · April 2026</div>
-    <h1 class="hdr-title">THE <span>COMMONS</span><br>GREENHOUSE</h1>
-    <p class="hdr-sub">You built the research. You built the paper. Now here's how to move it into the world without giving it all away — through local press, a podcast seed, and Coffee With Commies.</p>
+<!-- ══ 01 ORIENTATION ══ -->
+<div class="section" id="orientation">
+  <div class="sec-marker">
+    <span class="sec-n">01</span><div class="sec-line"></div>
+    <span class="sec-name">Orientation & Solar Geometry</span>
+  </div>
+  <h2 class="sec-title">Face the Sun.<br>Turn Your Back on the Wind.</h2>
+  <p class="sec-deck">At 35.5°N latitude, the winter sun runs low across the southern sky. Everything about this design is an argument with that fact — and a decision to use it.</p>
+
+  <div class="body">
+    <p>The single most important decision in greenhouse design is orientation. Get this wrong and no amount of insulation or clever engineering can fix it. For northern New Mexico, the rule is absolute: long axis runs east–west, glazed face points true south. Not magnetic south — true south. The difference is 8–10° here and it matters for winter performance.</p>
+    <p>At solar noon on the winter solstice in Santa Fe, the sun sits only 31° above the horizon. That is your design driver. A glazing surface angled at <em>50° from horizontal</em> — latitude plus 15° — presents nearly perpendicular to that low winter sun, capturing maximum energy when you need it most. The same steep angle causes the high summer sun (78° altitude at solstice) to glance off rather than drive interior temperatures to killing heat. The geometry does the work. You don't need mechanical shading if you build at the right angle.</p>
+    <p>The acceptable deviation from true south is roughly ±10°. Beyond that, winter performance degrades measurably. Use a compass app corrected for magnetic declination (~9°E in New Mexico), or simply orient by shadow at solar noon — a stake with no shadow falling due north tells you exactly where to point the building.</p>
   </div>
 
-  <!-- ── TRACK 01: LOCAL PUBLISHERS ── -->
-  <div class="track">
-    <div class="track-label">
-      <span class="tl-num">TRACK 01</span>
-      <div class="tl-line"></div>
-      <span class="tl-name">Local Publishers · The Tease, Not the Book</span>
-    </div>
+  <!-- SOLAR DIAGRAM SVG -->
+  <div class="diagram-wrap">
+    <div class="dw-label">Solar Geometry · Santa Fe 35.5°N · Section View</div>
+    <svg viewBox="0 0 700 300" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <marker id="arrowL" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+          <path d="M0 1 L9 5 L0 9 z" fill="#7ab83a"/>
+        </marker>
+        <marker id="arrowS" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+          <path d="M0 1 L9 5 L0 9 z" fill="#e8b830"/>
+        </marker>
+        <marker id="arrowW" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+          <path d="M0 1 L9 5 L0 9 z" fill="#3a7890"/>
+        </marker>
+      </defs>
 
-    <h2 class="track-title">Hit the Press.<br>Steer to the Seminar.</h2>
-    <p class="track-deck">You don't give away the full research. You give them a story angle that's irresistible — and every article ends with a door: the seminar. That's how you convert press into audience and audience into community.</p>
+      <!-- ground -->
+      <line x1="20" y1="230" x2="680" y2="230" stroke="rgba(122,184,58,0.3)" stroke-width="1.5"/>
+      <text x="30" y="248" font-family="DM Mono,monospace" font-size="10" fill="rgba(242,238,216,0.3)">GROUND LEVEL</text>
 
-    <div class="card-grid">
-      <div class="card">
-        <div class="card-label">Primary Target</div>
-        <div class="card-title">Santa Fe New Mexican</div>
-        <div class="card-body">Largest daily in NM. Their sustainability + food coverage is thin — you walk in with something real. Pitch as a community story, not a tech story. The angle: "Santa Fe family builds year-round food system for under $5k using passive solar and fish."</div>
-      </div>
-      <div class="card">
-        <div class="card-label">Primary Target</div>
-        <div class="card-title">Searchlight New Mexico</div>
-        <div class="card-body">Investigative / solutions journalism nonprofit. They cover land rights, water, rural NM. This is a direct alignment with the SANGRE_KV1 angle — dispossession + community infrastructure. Strong fit. Pitch the deeper story.</div>
-      </div>
-      <div class="card">
-        <div class="card-label">Regional</div>
-        <div class="card-title">Albuquerque Journal</div>
-        <div class="card-body">Wider reach. More mainstream. Use this for the CGS-C1 community prototype angle — the Lone Butte / Santa Fe County location, the community garden partnerships, the replicable cell model. Numbers and phases work here.</div>
-      </div>
-      <div class="card">
-        <div class="card-label">Niche / Mission Aligned</div>
-        <div class="card-title">NM Political Report + La Jicarita</div>
-        <div class="card-body">La Jicarita covers NM acequia + land rights directly — your SANGRE layer is a natural fit. NM Political Report covers policy. Use these for the deeper structural argument: food sovereignty as political infrastructure.</div>
-      </div>
-      <div class="card">
-        <div class="card-label">Hyperlocal</div>
-        <div class="card-title">Pasatiempo / Local Weeklies</div>
-        <div class="card-body">Santa Fe's arts + culture weekly. Good for the Alicia angle — this is a love story about building something beautiful for someone you care about. Human interest + innovation = front page material for them.</div>
-      </div>
-      <div class="card">
-        <div class="card-label">Academic / Extension</div>
-        <div class="card-title">NMSU Extension + UNM Press</div>
-        <div class="card-body">NMSU Extension already cites the research you're using. A community-built pilot in 87508 is exactly what they want to document. UNM Press for longer form — eventually. Plant the seed now.</div>
-      </div>
-    </div>
+      <!-- greenhouse outline: shed form -->
+      <!-- north wall (tall, insulated) -->
+      <line x1="200" y1="230" x2="200" y2="100" stroke="#7ab83a" stroke-width="2.5"/>
+      <!-- south glazing (50°) -->
+      <line x1="200" y1="100" x2="440" y2="230" stroke="#7ab83a" stroke-width="2.5"/>
+      <!-- floor -->
+      <line x1="200" y1="230" x2="440" y2="230" stroke="#7ab83a" stroke-width="1.5" stroke-dasharray="6,4"/>
 
-    <div class="action-box">
-      <div class="ab-label">The Pitch Frame — What You Send</div>
-      <div class="ab-body">
-        <strong>Subject:</strong> "A Santa Fe family is building a year-round food system for under $5k — and open-sourcing the design"<br><br>
-        You are not pitching a nonprofit. You are not pitching socialism. You are pitching a <strong>compelling local story</strong> with a real build, real math, real location, and a community angle. The ideology is in the design — you don't have to lead with it.<br><br>
-        Every pitch ends with: <em>"Salvador is available for a site visit once the prototype is underway, and is hosting a community seminar on the build methodology this summer. Details at senacolectivo.com."</em><br><br>
-        That's the steer. Article → seminar link → your audience.
-      </div>
-    </div>
+      <!-- labels -->
+      <text x="160" y="168" font-family="DM Mono,monospace" font-size="9" fill="rgba(122,184,58,0.8)" transform="rotate(-90,175,168)">NORTH WALL</text>
+      <text x="280" y="188" font-family="DM Mono,monospace" font-size="9" fill="rgba(122,184,58,0.9)" transform="rotate(-54,308,165)">SOUTH GLAZING · 50°</text>
 
-    <div class="remote-note">
-      <div class="rn-label">Remote-First Approach</div>
-      <div class="rn-body">You don't have a car. That's fine — all initial press outreach is email. When they want a site visit, that's when Alicia's location is the asset. You're the remote brain; she's the local face of the build. That's a better story anyway.</div>
-    </div>
+      <!-- angle arc -->
+      <path d="M 290 230 A 50 50 0 0 1 258 197" fill="none" stroke="rgba(122,184,58,0.4)" stroke-width="1"/>
+      <text x="295" y="218" font-family="DM Mono,monospace" font-size="10" fill="#7ab83a">50°</text>
+
+      <!-- winter sun ray -->
+      <line x1="590" y1="258" x2="340" y2="160" stroke="#e8b830" stroke-width="1.5" stroke-dasharray="8,4" marker-end="url(#arrowS)"/>
+      <text x="600" y="250" font-family="DM Mono,monospace" font-size="9" fill="#e8b830">WINTER SUN</text>
+      <text x="600" y="262" font-family="DM Mono,monospace" font-size="9" fill="rgba(232,184,48,0.6)">31° altitude</text>
+
+      <!-- summer sun ray -->
+      <line x1="590" y1="100" x2="340" y2="140" stroke="rgba(232,184,48,0.35)" stroke-width="1" stroke-dasharray="5,5" marker-end="url(#arrowS)"/>
+      <text x="600" y="96" font-family="DM Mono,monospace" font-size="9" fill="rgba(232,184,48,0.45)">SUMMER SUN</text>
+      <text x="600" y="108" font-family="DM Mono,monospace" font-size="9" fill="rgba(232,184,48,0.35)">78° altitude</text>
+
+      <!-- earth berm -->
+      <path d="M140 230 Q170 200 200 200 L200 230 Z" fill="rgba(122,78,40,0.5)" stroke="rgba(122,78,40,0.6)" stroke-width="1"/>
+      <text x="100" y="215" font-family="DM Mono,monospace" font-size="9" fill="rgba(122,78,40,0.9)">EARTH BERM</text>
+
+      <!-- earth tube -->
+      <path d="M80 250 Q130 280 200 268 Q260 258 300 260" fill="none" stroke="rgba(58,120,144,0.6)" stroke-width="2" stroke-dasharray="7,4"/>
+      <text x="30" y="272" font-family="DM Mono,monospace" font-size="9" fill="rgba(58,120,144,0.7)">EARTH TUBE · 6ft depth</text>
+
+      <!-- N/S labels -->
+      <text x="200" y="90" font-family="DM Mono,monospace" font-size="10" fill="rgba(242,238,216,0.4)" text-anchor="middle">N</text>
+      <text x="440" y="248" font-family="DM Mono,monospace" font-size="10" fill="rgba(242,238,216,0.4)" text-anchor="middle">S</text>
+    </svg>
   </div>
 
-  <div class="divider"></div>
-
-  <!-- ── TRACK 02: PODCAST ── -->
-  <div class="track">
-    <div class="track-label">
-      <span class="tl-num">TRACK 02</span>
-      <div class="tl-line"></div>
-      <span class="tl-name sun">NM Socialist Seed Podcast · Path of Least Resistance</span>
-    </div>
-
-    <h2 class="track-title" style="color:var(--sun)">The Greenhouse<br>Has a Microphone.</h2>
-    <p class="track-deck">The path of least resistance to a podcast is not a studio. It's a phone, a topic you know cold, and a 20-minute episode. CGS-C1 is your seed episode. Here's the whole pipeline — remote, bilingual, zero capital.</p>
-
-    <div class="card-grid">
-      <div class="card sun">
-        <div class="card-label">Episode 0 · The Seed</div>
-        <div class="card-title">"Build the Greenhouse First"</div>
-        <div class="card-body">15–20 min. Salvador solo or with Alicia. You walk through what you're building, why, and what it means for NM communities. This is the founding document in audio form. Record on your phone. Whisper → transcript → Spotify.</div>
-      </div>
-      <div class="card sun">
-        <div class="card-label">Format</div>
-        <div class="card-title">Bilingual Field Notes</div>
-        <div class="card-body">EN intro, ES block, EN conclusion. Or full bilingual weave. Short — 15–25 min max. This is not a talk show. It's a field dispatch. You're reporting from the build, from the research, from the land.</div>
-      </div>
-      <div class="card sun">
-        <div class="card-label">Distribution</div>
-        <div class="card-title">Spotify Podcasters (already live)</div>
-        <div class="card-body">You already have the Coffee With Commies infrastructure on Spotify Podcasters. The CGS podcast can live as a sister feed or a segment. China is your producer contact. One conversation gets this live.</div>
-      </div>
-    </div>
-
-    <div class="action-box sun">
-      <div class="ab-label">Minimum Viable Podcast — No Gear, No Money</div>
-      <div class="ab-body">
-        <strong>Step 1:</strong> Wispr → voice note your first episode script. Raw thoughts on the greenhouse, the land, the build.<br>
-        <strong>Step 2:</strong> Edit in Spotify Podcasters (built-in trimming) or send raw to China as producer.<br>
-        <strong>Step 3:</strong> Drop into existing Spotify feed OR create new show "SANGRE · Notas del Campo" — bilingual field notes.<br>
-        <strong>Step 4:</strong> Every episode links to the seminar registration page.<br><br>
-        <em>Total cost: $0. Total time: 2 hours for Episode 0.</em>
-      </div>
-    </div>
-
-    <div class="action-box sun">
-      <div class="ab-label">Episode Arc — First 6</div>
-      <div class="ab-body">
-        <strong>E01 —</strong> Why we're building a greenhouse in the desert (the love story + the politics)<br>
-        <strong>E02 —</strong> Phase 0: what we actually built, what broke, what worked<br>
-        <strong>E03 —</strong> Water rights 101 for NM communities (SANGRE_KV1 entry point)<br>
-        <strong>E04 —</strong> Fish, permits, and the state (tilapia saga)<br>
-        <strong>E05 —</strong> The compute connection — how AI infrastructure can feed people<br>
-        <strong>E06 —</strong> Interview: a local acequia mayordomo or NMSU extension agent
-      </div>
+  <div class="spec-block">
+    <div class="sb-title">Solar Geometry Specs · 35.5°N</div>
+    <div class="spec-rows">
+      <div class="spec-row"><span class="sr-key">Optimal glazing angle from horizontal</span><span class="sr-val good">48° – 52° (build at 50°)</span></div>
+      <div class="spec-row"><span class="sr-key">Solar noon altitude · winter solstice</span><span class="sr-val">~31°</span></div>
+      <div class="spec-row"><span class="sr-key">Solar noon altitude · equinox</span><span class="sr-val">~54.5°</span></div>
+      <div class="spec-row"><span class="sr-key">Solar noon altitude · summer solstice</span><span class="sr-val">~78°</span></div>
+      <div class="spec-row"><span class="sr-key">Max acceptable deviation from true south</span><span class="sr-val warn">±10°</span></div>
+      <div class="spec-row"><span class="sr-key">Magnetic declination · NM (correct for this)</span><span class="sr-val warn">~9° East</span></div>
+      <div class="spec-row"><span class="sr-key">Minimum roof slope for snow shedding (NMSU)</span><span class="sr-val good">28° — your 50° exceeds this</span></div>
     </div>
   </div>
-
-  <div class="divider"></div>
-
-  <!-- ── TRACK 03: COFFEE WITH COMMIES ── -->
-  <div class="track">
-    <div class="track-label">
-      <span class="tl-num">TRACK 03</span>
-      <div class="tl-line"></div>
-      <span class="tl-name rust">Coffee With Commies · Engagement + Field Visit</span>
-    </div>
-
-    <h2 class="track-title" style="color:var(--rust)">Bring Coffee<br>to the Greenhouse.</h2>
-    <p class="track-deck">You're a future guest on Coffee With Commies — that's confirmed. Now we use CGS-C1 to deepen that relationship and pull them up to Santa Fe County. You're remote; the greenhouse is the venue.</p>
-
-    <div class="remote-note">
-      <div class="rn-label">Your Constraint Is Real — Work With It</div>
-      <div class="rn-body">No car. Las Vegas NM last week was a stretch. So: your episode is remote — recorded, not live in studio. And when it comes to a field visit, they come to you. The greenhouse build is the draw. That's not a compromise — a working food system under construction in the high desert is a better visual than a studio couch.</div>
-    </div>
-
-    <div class="card-grid">
-      <div class="card rust">
-        <div class="card-label">Your Episode Angle</div>
-        <div class="card-title">"Food Is the Infrastructure"</div>
-        <div class="card-body">You're not just talking theory. You're building something. CGS-C1 is the proof-of-concept that socialist organizing produces material outcomes — food, fish, community capacity. That's the episode.</div>
-      </div>
-      <div class="card rust">
-        <div class="card-label">Field Episode</div>
-        <div class="card-title">CWC @ The Greenhouse</div>
-        <div class="card-body">Invite LeeAnn and Antonio to do a field episode at the Lone Butte build site once Phase 0 is up. They bring the mics, you bring the fish and the politics. Episode title: "Growing Socialism in the High Desert."</div>
-      </div>
-      <div class="card rust">
-        <div class="card-label">The Ask to China</div>
-        <div class="card-title">Producer Coordination</div>
-        <div class="card-body">China is the one to coordinate with. One message: "We want to do a CGS-C1 field episode at the build site. Salvador is remote but can do his segment over video. Can we schedule a site visit for LeeAnn and Antonio in late May/June?"</div>
-      </div>
-    </div>
-
-    <div class="action-box rust">
-      <div class="ab-label">Message to China — Draft (send via Messenger)</div>
-      <div class="ab-body">
-        <div class="script-box">
-<span class="name">To: China (CWC Producer)</span>
-
-Hey China — hope you're good. I'm working on something I want to bring into the CWC ecosystem.
-
-I'm building a community aquaponic greenhouse in Lone Butte — passive solar, earth-bermed, under $5k prototype. Open source, bilingual design. It's connected to the land rights and water research NM Socialists has been publishing.
-
-Two things I want to propose:
-1. My guest episode — I can do my segment remote (video call). Topic: food sovereignty as material organizing infrastructure.
-2. A field episode at the build site once Phase 0 is up (targeting late May / June). LeeAnn and Antonio come up to Santa Fe County. The greenhouse is the backdrop.
-
-I don't have a car so I can't make it to ABQ easily — but the mountain can come to Muhammad lol.
-
-Let me know if this works for the schedule.
-— Salvador
-        </div>
-      </div>
-    </div>
-
-    <div class="action-box rust">
-      <div class="ab-label">Seminar Connection — The Full Loop</div>
-      <div class="ab-body">
-        Press article → seminar link<br>
-        Podcast episode → seminar link<br>
-        CWC episode → seminar link<br><br>
-        <strong>The seminar is the conversion point.</strong> Every outreach track ends at the same door. You're not giving away the full research — you're giving people a reason to show up. The research lives at the seminar, and eventually in the full publication (La Biblioteca Vol. 8 — CGS Special Edition).
-      </div>
-    </div>
-  </div>
-
-  <!-- FOOTER -->
-  <div class="footer">
-    <span>CGS-C1 · Three Track Strategy · April 2026</span>
-    <span>NM Socialists Inc. · senacolectivo.com</span>
-    <span>built by Sena's AI Collective</span>
-  </div>
-
 </div>
+
+<!-- ══ 02 STRUCTURE ══ -->
+<div class="section" id="structure">
+  <div class="sec-marker">
+    <span class="sec-n sec-n">02</span><div class="sec-line"></div>
+    <span class="sec-name">Structure & Wind Engineering</span>
+  </div>
+  <h2 class="sec-title">This Is a Wind Job<br>First.</h2>
+  <p class="sec-deck">Spring gusts in Santa Fe County routinely exceed 30 mph. Every structural decision here starts with that number and works backward to what will still be standing in April.</p>
+
+  <div class="body">
+    <p>The frame is the one thing you cannot cheap out on. The covering can be replaced. The grow beds can be rebuilt. But if the frame fails in a wind event, you lose the season, the investment, and potentially the entire system. Build the skeleton to last 20 years. Everything else is skin.</p>
+    <p>For a 16' × 32' hoop structure in a high-wind desert zone, the critical decisions are anchoring depth, end wall bracing, and ridge stiffness. The hoops themselves are under-stressed in most conditions — it's the connections and the end walls that fail first. A hoop structure without solid end walls is a sail, not a greenhouse.</p>
+    <p>The earth berm deserves more credit than it gets. A 2–3 foot berm along the north wall and partial east and west sides does three things simultaneously: it cuts the wind load on the most vulnerable surfaces, it adds thermal mass at the base where cold air pooling is worst, and it anchors the base of the frame better than any mechanical connection. It costs nothing but labor. Do it first.</p>
+  </div>
+
+  <!-- PLAN VIEW SVG -->
+  <div class="diagram-wrap">
+    <div class="dw-label">Site Plan · 16' × 32' CGS-C1 · From Above</div>
+    <svg viewBox="0 0 600 360" xmlns="http://www.w3.org/2000/svg">
+      <!-- compass -->
+      <text x="30" y="30" font-family="DM Mono,monospace" font-size="11" fill="#7ab83a">N↑</text>
+      <text x="30" y="340" font-family="DM Mono,monospace" font-size="11" fill="rgba(242,238,216,0.4)">S</text>
+
+      <!-- greenhouse footprint -->
+      <rect x="100" y="80" width="380" height="190" fill="rgba(26,36,18,0.8)" stroke="#7ab83a" stroke-width="2.5"/>
+
+      <!-- north berm (top) -->
+      <rect x="80" y="60" width="420" height="25" fill="rgba(122,78,40,0.45)" stroke="rgba(122,78,40,0.6)" stroke-width="1"/>
+      <text x="200" y="76" font-family="DM Mono,monospace" font-size="9" fill="rgba(180,120,60,0.9)">EARTH BERM · N SIDE</text>
+
+      <!-- east/west partial berms -->
+      <rect x="76" y="80" width="20" height="190" fill="rgba(122,78,40,0.3)" stroke="rgba(122,78,40,0.4)" stroke-width="1"/>
+      <rect x="504" y="80" width="20" height="190" fill="rgba(122,78,40,0.3)" stroke="rgba(122,78,40,0.4)" stroke-width="1"/>
+
+      <!-- interior layout zones -->
+      <!-- fish/process zone (north) -->
+      <rect x="104" y="84" width="372" height="55" fill="rgba(58,120,144,0.15)" stroke="rgba(58,120,144,0.3)" stroke-width="1" stroke-dasharray="5,3"/>
+      <text x="220" y="116" font-family="DM Mono,monospace" font-size="9" fill="rgba(58,120,144,0.8)">FISH TANK · BIOFILTER · SUMP · THERMAL MASS</text>
+
+      <!-- center aisle -->
+      <rect x="104" y="139" width="372" height="22" fill="rgba(242,238,216,0.04)" stroke="rgba(242,238,216,0.1)" stroke-width="1" stroke-dasharray="3,3"/>
+      <text x="260" y="154" font-family="DM Mono,monospace" font-size="8" fill="rgba(242,238,216,0.3)">MAIN AISLE</text>
+
+      <!-- grow beds -->
+      <rect x="110" y="162" width="170" height="52" fill="rgba(122,184,58,0.12)" stroke="rgba(122,184,58,0.3)" stroke-width="1"/>
+      <text x="148" y="193" font-family="DM Mono,monospace" font-size="9" fill="rgba(122,184,58,0.8)">DWC BEDS</text>
+
+      <rect x="300" y="162" width="170" height="52" fill="rgba(122,184,58,0.12)" stroke="rgba(122,184,58,0.3)" stroke-width="1"/>
+      <text x="338" y="193" font-family="DM Mono,monospace" font-size="9" fill="rgba(122,184,58,0.8)">DWC BEDS</text>
+
+      <!-- south low crops -->
+      <rect x="104" y="215" width="372" height="51" fill="rgba(122,184,58,0.07)" stroke="rgba(122,184,58,0.15)" stroke-width="1" stroke-dasharray="4,3"/>
+      <text x="220" y="245" font-family="DM Mono,monospace" font-size="9" fill="rgba(122,184,58,0.5)">LOW CROPS ONLY NEAR SOUTH GLAZING</text>
+
+      <!-- earth tube line (underground) -->
+      <path d="M55 300 Q80 310 100 295 Q140 280 160 275" fill="none" stroke="rgba(58,120,144,0.5)" stroke-width="2" stroke-dasharray="8,4"/>
+      <text x="20" y="318" font-family="DM Mono,monospace" font-size="8" fill="rgba(58,120,144,0.6)">EARTH TUBE (BURIED)</text>
+
+      <!-- door -->
+      <rect x="275" y="268" width="30" height="4" fill="#7ab83a"/>
+      <text x="268" y="288" font-family="DM Mono,monospace" font-size="8" fill="rgba(122,184,58,0.7)">DOOR</text>
+
+      <!-- sun arrow from south -->
+      <line x1="290" y1="342" x2="290" y2="278" stroke="rgba(232,184,48,0.6)" stroke-width="1.5" marker-end="url(#arrowS)"/>
+      <text x="250" y="356" font-family="DM Mono,monospace" font-size="9" fill="rgba(232,184,48,0.6)">SOLAR GAIN →</text>
+
+      <!-- dimension labels -->
+      <text x="550" y="178" font-family="DM Mono,monospace" font-size="10" fill="rgba(242,238,216,0.4)" transform="rotate(90,550,178)">16'</text>
+      <text x="286" y="50" font-family="DM Mono,monospace" font-size="10" fill="rgba(242,238,216,0.4)" text-anchor="middle">32'</text>
+    </svg>
+  </div>
+
+  <div class="spec-block">
+    <div class="sb-title">Structural Spec · Phase 0 · 16' × 32'</div>
+    <div class="spec-rows">
+      <div class="spec-row"><span class="sr-key">Frame option A (fastest)</span><span class="sr-val">Hoop kit, galvanized steel, 4ft hoop spacing</span></div>
+      <div class="spec-row"><span class="sr-key">Frame option B (cheapest)</span><span class="sr-val good">1" EMT conduit, bent on-site</span></div>
+      <div class="spec-row"><span class="sr-key">Salvage frame option (best value)</span><span class="sr-val good">Chain-link top rails or trampoline frames</span></div>
+      <div class="spec-row"><span class="sr-key">Ridge pole</span><span class="sr-val">1 run full 32' length</span></div>
+      <div class="spec-row"><span class="sr-key">Side purlins</span><span class="sr-val">2 minimum, full length</span></div>
+      <div class="spec-row"><span class="sr-key">Anchoring (minimum)</span><span class="sr-val warn">Rebar 2–3ft + concrete collars, 20–30 stakes</span></div>
+      <div class="spec-row"><span class="sr-key">Anchoring (preferred)</span><span class="sr-val good">Ground screws — no concrete needed</span></div>
+      <div class="spec-row"><span class="sr-key">Anti-billow straps</span><span class="sr-val crit">Every 4–6 ft over plastic — non-negotiable</span></div>
+      <div class="spec-row"><span class="sr-key">End walls</span><span class="sr-val crit">2×4 framed, braced — DO NOT skip</span></div>
+      <div class="spec-row"><span class="sr-key">Earth berm height (north + partial sides)</span><span class="sr-val good">2–3 ft</span></div>
+    </div>
+  </div>
+
+  <div class="rule-box">
+    <div class="rb-label">⚠ Wind Failure Modes — What Kills Greenhouses Here</div>
+    <div class="rb-body">
+      <ul>
+        <li><strong>Skipped anti-billow straps</strong> → plastic becomes a sail, tears from frame in first wind event</li>
+        <li><strong>Loose rebar anchors without concrete</strong> → uplift pulls stakes in sustained 35+ mph gusts</li>
+        <li><strong>Unbraced end walls</strong> → first failure point in any lateral wind load. Frame without end walls is a tunnel without caps.</li>
+        <li><strong>Unsecured door/vent flaps</strong> → Bernoulli effect creates massive internal pressure differential. Latch everything.</li>
+        <li><strong>Skipped earth berm</strong> → losing 30–40% thermal performance AND removing the best wind break you have</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- ══ 03 ENVELOPE ══ -->
+<div class="section" id="envelope">
+  <div class="sec-marker">
+    <span class="sec-n">03</span><div class="sec-line"></div>
+    <span class="sec-name">Envelope · Skin & Insulation</span>
+  </div>
+  <h2 class="sec-title">The Skin<br>Earns Its Keep.</h2>
+  <p class="sec-deck">Single-pane glass is a heater in reverse. In northern New Mexico you want solar gain in, heat loss minimized, and wind infiltration zero. The materials are cheap — the installation details are everything.</p>
+
+  <div class="body">
+    <p>For the Phase 0 hoop build, 6-mil UV-stabilized greenhouse poly is the right covering. It's not glamorous. It transmits ~85% of light, it weighs almost nothing, and you can replace it in a few hours if it tears. The key is to order UV-stabilized material — non-UV poly degrades in one New Mexico season. Double-layer with an inflation gap is the Phase 1 upgrade; for Phase 0, single layer installed tight and reinforced is sufficient.</p>
+    <p>The north wall is the most important surface in the building and it should not be glazed. Transparent north walls are one of the most common mistakes in residential greenhouse design. The north side receives no direct winter sun — it only loses heat. Insulate it like a house wall. R-13 minimum in the stud bays. Radiant barrier on the interior face if budget allows. Every BTU you stop from escaping through the north wall is a BTU that doesn't need to come from somewhere else.</p>
+  </div>
+
+  <div class="spec-block">
+    <div class="sb-title">Envelope Specification</div>
+    <div class="spec-rows">
+      <div class="spec-row"><span class="sr-key">Phase 0 covering</span><span class="sr-val good">6 mil UV-stabilized greenhouse poly</span></div>
+      <div class="spec-row"><span class="sr-key">Phase 1 upgrade</span><span class="sr-val">8–16mm twin/multiwall polycarbonate south face</span></div>
+      <div class="spec-row"><span class="sr-key">Light transmission (6mil poly)</span><span class="sr-val">~85%</span></div>
+      <div class="spec-row"><span class="sr-key">Light transmission (twin-wall poly)</span><span class="sr-val">~80% with insulation gain</span></div>
+      <div class="spec-row"><span class="sr-key">North wall</span><span class="sr-val crit">OPAQUE + INSULATED — no glazing ever</span></div>
+      <div class="spec-row"><span class="sr-key">North wall insulation minimum</span><span class="sr-val">R-13 in stud bays</span></div>
+      <div class="spec-row"><span class="sr-key">Night insulation (Phase 1)</span><span class="sr-val">Interior thermal curtain over glazing after sunset</span></div>
+      <div class="spec-row"><span class="sr-key">Covering attachment</span><span class="sr-val good">Wiggle wire + channel system — not staples</span></div>
+      <div class="spec-row"><span class="sr-key">Air sealing priority</span><span class="sr-val warn">Door gaskets, vent seals — first dollar spent</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ 04 THERMAL ══ -->
+<div class="section" id="thermal">
+  <div class="sec-marker">
+    <span class="sec-n sun">04</span><div class="sec-line sun"></div>
+    <span class="sec-name sun">Thermal System · Earth + Mass + Loop</span>
+  </div>
+  <h2 class="sec-title">The Ground<br>Is Your Battery.</h2>
+  <p class="sec-deck">Six feet below the surface, the soil in Santa Fe County holds a stable 55–60°F year-round while the surface swings between 10°F and 95°F. That differential is your free HVAC system — if you build the pipe to use it.</p>
+
+  <div class="body">
+    <p>Thermal stability is the hardest problem in high-desert greenhouse design. The diurnal temperature swing — the gap between daytime high and nighttime low — can exceed 40°F in a single day here. A greenhouse with no thermal mass tracks that swing directly, cooking plants in the afternoon and freezing them before dawn. The solution is mass, and the cheapest mass is water.</p>
+    <p>Fifty-five gallon barrels placed along the north wall, painted black, absorb heat all day and release it through the night. A 500-gallon fish tank does the same work at ten times the scale. The fish tank isn't just an aquaculture system — it is the thermal anchor of the building. Its temperature stability protects both the fish and the plants, and the compute heat loop (Phase 2) feeds directly into it. The biology and the physics reinforce each other.</p>
+    <p>The earth air tube is the sleeper feature of this design. A 4-inch corrugated drain pipe buried 6 feet deep and run 40–60 feet from an outdoor intake to a low inlet on the north wall costs under $200 and requires no electricity. In summer it pre-cools incoming air to ~60°F. In winter it pre-warms it to the same ~60°F. It doesn't heat the greenhouse — it prevents the extremes. That's exactly what you want from a zero-cost passive system.</p>
+  </div>
+
+  <!-- THERMAL DIAGRAM -->
+  <div class="diagram-wrap">
+    <div class="dw-label sun">Thermal System · Heat Flow Diagram</div>
+    <svg viewBox="0 0 660 280" xmlns="http://www.w3.org/2000/svg">
+      <!-- DAY: sun in, storage charging -->
+      <!-- sun rays through glazing -->
+      <line x1="500" y1="20" x2="380" y2="120" stroke="rgba(232,184,48,0.5)" stroke-width="1.5" stroke-dasharray="6,4"/>
+      <line x1="540" y1="40" x2="420" y2="130" stroke="rgba(232,184,48,0.4)" stroke-width="1" stroke-dasharray="6,4"/>
+      <line x1="460" y1="10" x2="340" y2="110" stroke="rgba(232,184,48,0.4)" stroke-width="1" stroke-dasharray="6,4"/>
+      <text x="520" y="18" font-family="DM Mono,monospace" font-size="9" fill="rgba(232,184,48,0.7)">SOLAR GAIN</text>
+
+      <!-- greenhouse box -->
+      <rect x="120" y="100" width="320" height="120" fill="rgba(26,36,18,0.6)" stroke="#7ab83a" stroke-width="1.5"/>
+
+      <!-- thermal barrels -->
+      <ellipse cx="170" cy="185" rx="18" ry="12" fill="rgba(26,26,26,0.9)" stroke="rgba(232,184,48,0.6)" stroke-width="1.5"/>
+      <rect x="152" y="145" width="36" height="40" fill="rgba(26,26,26,0.9)" stroke="rgba(232,184,48,0.6)" stroke-width="1.5"/>
+      <ellipse cx="170" cy="145" rx="18" ry="12" fill="rgba(26,26,26,0.9)" stroke="rgba(232,184,48,0.7)" stroke-width="1.5"/>
+      <text x="130" y="205" font-family="DM Mono,monospace" font-size="8" fill="rgba(232,184,48,0.7)">THERMAL</text>
+      <text x="134" y="215" font-family="DM Mono,monospace" font-size="8" fill="rgba(232,184,48,0.7)">MASS</text>
+
+      <!-- fish tank -->
+      <rect x="230" y="148" width="80" height="55" fill="rgba(58,120,144,0.2)" stroke="rgba(58,120,144,0.6)" stroke-width="1.5" rx="2"/>
+      <text x="243" y="180" font-family="DM Mono,monospace" font-size="8" fill="rgba(58,120,144,0.9)">FISH TANK</text>
+      <text x="240" y="192" font-family="DM Mono,monospace" font-size="8" fill="rgba(58,120,144,0.6)">500 gal</text>
+
+      <!-- grow beds -->
+      <rect x="335" y="155" width="90" height="30" fill="rgba(122,184,58,0.15)" stroke="rgba(122,184,58,0.4)" stroke-width="1"/>
+      <text x="350" y="175" font-family="DM Mono,monospace" font-size="8" fill="rgba(122,184,58,0.8)">GROW BEDS</text>
+
+      <!-- earth tube underground -->
+      <path d="M20 250 Q60 260 100 255 Q120 252 130 240" fill="none" stroke="rgba(58,120,144,0.5)" stroke-width="2.5" stroke-dasharray="8,5"/>
+      <text x="20" y="272" font-family="DM Mono,monospace" font-size="8" fill="rgba(58,120,144,0.6)">EARTH TUBE · 6ft deep · 55–60°F year-round</text>
+
+      <!-- night radiation arrows from barrels -->
+      <line x1="170" y1="135" x2="250" y2="135" stroke="rgba(232,184,48,0.3)" stroke-width="1" marker-end="url(#arrowS)"/>
+      <text x="178" y="130" font-family="DM Mono,monospace" font-size="7" fill="rgba(232,184,48,0.5)">NIGHT RELEASE →</text>
+
+      <!-- PHASE 2: compute loop indicator -->
+      <rect x="530" y="110" width="90" height="50" fill="rgba(122,184,58,0.08)" stroke="rgba(122,184,58,0.3)" stroke-width="1" stroke-dasharray="4,3" rx="2"/>
+      <text x="545" y="133" font-family="DM Mono,monospace" font-size="8" fill="rgba(122,184,58,0.5)">COMPUTE</text>
+      <text x="548" y="145" font-family="DM Mono,monospace" font-size="8" fill="rgba(122,184,58,0.5)">HEAT LOOP</text>
+      <text x="543" y="157" font-family="DM Mono,monospace" font-size="7" fill="rgba(122,184,58,0.35)">(PHASE 2)</text>
+      <line x1="530" y1="135" x2="440" y2="175" stroke="rgba(122,184,58,0.2)" stroke-width="1" stroke-dasharray="4,4"/>
+    </svg>
+  </div>
+
+  <div class="spec-block sun">
+    <div class="sb-title">Thermal System Specs</div>
+    <div class="spec-rows">
+      <div class="spec-row"><span class="sr-key">Stable soil temperature at 6ft depth</span><span class="sr-val good">55–60°F year-round</span></div>
+      <div class="spec-row"><span class="sr-key">Earth tube diameter</span><span class="sr-val">4" corrugated drain pipe</span></div>
+      <div class="spec-row"><span class="sr-key">Earth tube length</span><span class="sr-val">40–60 ft minimum</span></div>
+      <div class="spec-row"><span class="sr-key">Earth tube burial depth</span><span class="sr-val good">6–8 ft (below frost + thermal stable zone)</span></div>
+      <div class="spec-row"><span class="sr-key">Thermal mass — Phase 0</span><span class="sr-val">4–10 × 55-gal barrels, painted black, north wall</span></div>
+      <div class="spec-row"><span class="sr-key">Thermal mass — Phase 1</span><span class="sr-val good">500-gal fish tank (also serves aquaponics)</span></div>
+      <div class="spec-row"><span class="sr-key">5kW compute rack heat output (Phase 2)</span><span class="sr-val good">17,060 BTU/hr at 100% efficiency</span></div>
+      <div class="spec-row"><span class="sr-key">Tank temp rise from compute heat (80% eff.)</span><span class="sr-val">~3.27°F/hr on 500-gal tank</span></div>
+      <div class="spec-row"><span class="sr-key">Earth tube electricity cost</span><span class="sr-val good">$0 — fully passive</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ 05 AQUAPONICS ══ -->
+<div class="section" id="aquaponics">
+  <div class="sec-marker">
+    <span class="sec-n water">05</span><div class="sec-line water"></div>
+    <span class="sec-name water">Aquaponics · The Water Engine</span>
+  </div>
+  <h2 class="sec-title">Fish Feed Plants.<br>Plants Clean Water.</h2>
+  <p class="sec-deck">A properly designed aquaponic loop uses 95% less water than soil agriculture. The nitrogen cycle does the work — fish waste becomes plant nutrient, plant roots clean the water, clean water returns to the fish. The system runs itself if you don't fight it.</p>
+
+  <div class="body">
+    <p>The most common aquaponic failure is attempting to run fish and plants in the same undifferentiated loop with minimal treatment. It looks simple on paper. In practice, solids build up, ammonia spikes, and the fish die. The water train needs separation: fish tank, then solids removal, then biological filtration, then plant zone, then sump, then return. Each stage has a job. None of them are optional.</p>
+    <p>For Phase 1, design for one fish species only. Tilapia is biologically ideal — fast growth, heat-tolerant, high feed-to-protein ratio — but it requires an aquaculture permit from New Mexico Game and Fish because it is a non-native species. Do not buy tilapia before checking permit status. Design the system to be species-agnostic so you can run blue tilapia if permitted, or switch to rainbow trout (which thrive at your air temperatures and have fewer regulatory complications) without redesigning the tank volume or plumbing.</p>
+  </div>
+
+  <div class="aq-flow">
+    <div class="af-label">Aquaponics Water Train · Phase 1</div>
+    <div class="af-steps">
+      <div class="af-step"><div class="af-num">01</div><div class="af-bar"><div class="af-name">Fish Tank</div><div class="af-desc">500–1,000 gal. North side, insulated wall behind. Temperature stabilized by thermal loop and earth system. Aeration pump + backup aeration — life support, never single-point.</div></div></div>
+      <div class="af-arrow">↓</div>
+      <div class="af-step"><div class="af-num">02</div><div class="af-bar"><div class="af-name">Swirl / Radial Flow Clarifier</div><div class="af-desc">Removes solid waste before it reaches biofilter. Dramatically reduces cleaning frequency and ammonia buildup. A $20 bucket swirl filter works at Phase 0 scale. Do not skip.</div></div></div>
+      <div class="af-arrow">↓</div>
+      <div class="af-step"><div class="af-num">03</div><div class="af-bar"><div class="af-name">Biofilter / Mineralization Zone</div><div class="af-desc">Nitrifying bacteria convert ammonia → nitrite → nitrate. Media bed gravel, volcanic rock, or commercial bio-media. Temperature stability here (thanks to the thermal system) increases nitrification efficiency by 30–40%.</div></div></div>
+      <div class="af-arrow">↓</div>
+      <div class="af-step"><div class="af-num">04</div><div class="af-bar"><div class="af-name">DWC Raft Beds / Media Beds</div><div class="af-desc">Plants extract nitrates (their nitrogen source) from the water. Deep water culture (DWC) is the most productive for leafy greens and herbs. Media beds work for Phase 0 with minimal infrastructure.</div></div></div>
+      <div class="af-arrow">↓</div>
+      <div class="af-step"><div class="af-num">05</div><div class="af-bar"><div class="af-name">Sump</div><div class="af-desc">Collects cleaned water. Provides volume buffer. Houses return pump. Acts as water level regulator for the whole system.</div></div></div>
+      <div class="af-arrow">↓</div>
+      <div class="af-step"><div class="af-num">06</div><div class="af-bar"><div class="af-name">Return to Fish Tank</div><div class="af-desc">Clean, oxygenated, plant-filtered water returns to the fish. Closed loop. 95% water savings vs. open agriculture. The fish never see their own waste.</div></div></div>
+    </div>
+  </div>
+
+  <div class="spec-block water">
+    <div class="sb-title">Aquaponics Specs · Phase 1</div>
+    <div class="spec-rows">
+      <div class="spec-row"><span class="sr-key">Fish tank volume (Phase 1)</span><span class="sr-val">500–1,000 gal</span></div>
+      <div class="spec-row"><span class="sr-key">Fish tank placement</span><span class="sr-val good">North side — insulated wall, thermal stability</span></div>
+      <div class="spec-row"><span class="sr-key">Target water temp (tilapia)</span><span class="sr-val">24–27°C (75–80°F)</span></div>
+      <div class="spec-row"><span class="sr-key">Target water temp (trout alternative)</span><span class="sr-val">12–18°C — matches passive winter temps</span></div>
+      <div class="spec-row"><span class="sr-key">pH target</span><span class="sr-val">6.5 – 7.5</span></div>
+      <div class="spec-row"><span class="sr-key">Ammonia limit</span><span class="sr-val warn">&lt; 1 ppm (toxic above 2 ppm)</span></div>
+      <div class="spec-row"><span class="sr-key">Dissolved oxygen minimum</span><span class="sr-val warn">&gt; 5 mg/L</span></div>
+      <div class="spec-row"><span class="sr-key">Grow bed to tank ratio (DWC)</span><span class="sr-val">2–3× tank surface area</span></div>
+      <div class="spec-row"><span class="sr-key">Water savings vs. soil agriculture</span><span class="sr-val good">95%</span></div>
+      <div class="spec-row"><span class="sr-key">Tilapia permit required (NM)</span><span class="sr-val crit">YES — NM Dept of Game and Fish aquaculture permit</span></div>
+      <div class="spec-row"><span class="sr-key">No-permit alternative</span><span class="sr-val good">Rainbow trout — check current NM DGF list</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ 06 UPCYCLE ══ -->
+<div class="section" id="upcycle">
+  <div class="sec-marker">
+    <span class="sec-n soil">06</span><div class="sec-line soil"></div>
+    <span class="sec-name soil">Upcycle Build · $500 Version</span>
+  </div>
+  <h2 class="sec-title">Frame Is Forever.<br>Skin Is Replaceable.</h2>
+  <p class="sec-deck">Everything above can be built with salvaged materials for under $600. The structural principle doesn't change — only the budget. Build the skeleton to last 20 years. Let everything else be temporary and cheap.</p>
+
+  <div class="upcycle-box">
+    <div class="ub-label">⟳ Buy → Salvage Swap Table</div>
+    <div class="ub-grid">
+      <div class="ub-item">
+        <div class="ub-buy">Hoop kit $800–1,500</div>
+        <div class="ub-swap">Chain-link top rails</div>
+        <div class="ub-src">Fence removal crews · Craigslist · $0–200</div>
+      </div>
+      <div class="ub-item">
+        <div class="ub-buy">Galvanized hoops</div>
+        <div class="ub-swap">Old trampoline frames</div>
+        <div class="ub-src">FB Marketplace · often free pickup · $0–80</div>
+      </div>
+      <div class="ub-item">
+        <div class="ub-buy">Greenhouse poly $200–400</div>
+        <div class="ub-swap">Used billboard vinyl</div>
+        <div class="ub-src">Billboard companies · sign shops · $0–100</div>
+      </div>
+      <div class="ub-item">
+        <div class="ub-buy">End wall lumber</div>
+        <div class="ub-swap">Pallets + old doors</div>
+        <div class="ub-src">"Free pallets" search · big box stores · $0</div>
+      </div>
+      <div class="ub-item">
+        <div class="ub-buy">Rebar anchors $200</div>
+        <div class="ub-swap">Construction site scrap rebar</div>
+        <div class="ub-src">Ask at active jobsites · often given free · $0</div>
+      </div>
+      <div class="ub-item">
+        <div class="ub-buy">Thermal barrels $200</div>
+        <div class="ub-swap">55-gal food-grade barrels</div>
+        <div class="ub-src">Farms · ranches · food processors · $0–100</div>
+      </div>
+      <div class="ub-item">
+        <div class="ub-buy">Raised beds $300</div>
+        <div class="ub-swap">Scrap lumber / metal stock tanks</div>
+        <div class="ub-src">Ranch auctions · old metal troughs · $0–150</div>
+      </div>
+      <div class="ub-item">
+        <div class="ub-buy">Compost / soil mix $200</div>
+        <div class="ub-swap">Horse manure + yard waste</div>
+        <div class="ub-src">Local stables · horse owners · free if you haul · $0</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="pull">
+    <p class="pq">Build the frame strong. Build the skin cheap. The frame is your 20-year investment. The plastic is a $150 annual maintenance cost. Never confuse the two.</p>
+    <span class="pq-src">CGS-C1 Build Doctrine · Sena's AI Collective</span>
+  </div>
+
+  <table class="bom">
+    <thead>
+      <tr><th>Component</th><th>Scavenger Option</th><th>Backup (Buy)</th><th>Target Cost</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>Hoop frame (8–12 ribs)</td><td class="free">Chain-link rails / trampoline</td><td>1" EMT conduit</td><td class="free">$0 – $200</td></tr>
+      <tr><td>Ridge + purlins</td><td class="free">Scrap conduit / electrical pipe</td><td>1¼" EMT</td><td class="free">$0 – $80</td></tr>
+      <tr><td>Anchoring</td><td class="free">Construction scrap rebar</td><td>½" rebar + concrete</td><td class="free">$0 – $150</td></tr>
+      <tr><td>Covering</td><td class="free">Billboard vinyl / used greenhouse poly</td><td>6mil UV poly</td><td class="free">$0 – $150</td></tr>
+      <tr><td>End walls</td><td class="free">Pallets + old doors</td><td>2×4 lumber</td><td class="free">$0 – $100</td></tr>
+      <tr><td>Thermal mass</td><td class="free">55-gal food-grade barrels</td><td>Any clean containers</td><td class="free">$0 – $100</td></tr>
+      <tr><td>Earth tube</td><td>Corrugated drain pipe</td><td>Same</td><td>$60 – $150</td></tr>
+      <tr><td>Grow beds</td><td class="free">Pallets / scrap lumber / metal troughs</td><td>Raised bed kits</td><td class="free">$0 – $150</td></tr>
+      <tr><td>Fasteners / misc</td><td>—</td><td>Zip ties, screws, tape</td><td>$50 – $100</td></tr>
+      <tr class="total"><td colspan="3"><strong>UPCYCLED TOTAL TARGET</strong></td><td><strong>$200 – $600</strong></td></tr>
+      <tr class="total"><td colspan="3"><strong>BALANCED BUILD (some new, some salvage)</strong></td><td><strong>$500 – $1,500</strong></td></tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- ══ 07 BUILD SEQUENCE ══ -->
+<div class="section" id="sequence">
+  <div class="sec-marker">
+    <span class="sec-n">07</span><div class="sec-line"></div>
+    <span class="sec-name">Build Sequence · 7 Days</span>
+  </div>
+  <h2 class="sec-title">Seven Days<br>to First Plant.</h2>
+  <p class="sec-deck">This is the sequence. Do not rearrange it. Each step creates the conditions for the next. Anchoring before covering. Berm before planting. Barrels before you close the envelope.</p>
+
+  <div class="timeline">
+    <div class="tl-row"><div class="tl-day">DAY 1–2</div><div class="tl-bar"><div class="tl-title">Site + Foundation</div><div class="tl-detail">Mark 16'×32' footprint aligned true south. Dig earth tube trench (6ft deep, 40–60ft long, north entry). Excavate shallow perimeter or berm material. Set rebar stakes + concrete collars or drive ground screws. Let concrete cure.</div></div></div>
+    <div class="tl-connector"></div>
+    <div class="tl-row"><div class="tl-day">DAY 3</div><div class="tl-bar"><div class="tl-title">Frame</div><div class="tl-detail">Install hoops over rebar sleeves or ground screws. Run ridge pole full length. Install two side purlins. Verify alignment and square. Brace end walls — 2×4 framed, diagonal braced.</div></div></div>
+    <div class="tl-connector"></div>
+    <div class="tl-row"><div class="tl-day">DAY 4</div><div class="tl-bar"><div class="tl-title">Envelope + Tube</div><div class="tl-detail">Install covering with wiggle wire system — do not staple. Install anti-billow straps every 4–6ft. Run earth tube from exterior intake through trench to north wall low inlet. Mesh the intake. Seal gaps around tube entry.</div></div></div>
+    <div class="tl-connector"></div>
+    <div class="tl-row"><div class="tl-day">DAY 5</div><div class="tl-bar"><div class="tl-title">Berm + North Wall</div><div class="tl-detail">Build earth berm against north wall and partial sides — 2–3ft. Insulate north wall interior with R-13 or rigid foam. Place thermal mass barrels along north wall, fill with water, cap loosely. Paint black if possible.</div></div></div>
+    <div class="tl-connector"></div>
+    <div class="tl-row"><div class="tl-day">DAY 6</div><div class="tl-bar"><div class="tl-title">Interior + Vents</div><div class="tl-detail">Install grow beds or lay out DWC troughs. Install roll-up side hardware. Hang door with latch and gasket. Add shade cloth storage for summer (don't install yet). Run water supply line.</div></div></div>
+    <div class="tl-connector"></div>
+    <div class="tl-row"><div class="tl-day">DAY 7</div><div class="tl-bar"><div class="tl-title">Plant</div><div class="tl-detail">Amend soil or fill DWC with water. Start lettuce, spinach, arugula, radish, cilantro, green onion. First harvest possible in 2–4 weeks. Log temperature morning and evening — this data is Phase 1 funding evidence.</div></div></div>
+  </div>
+</div>
+
+<!-- ══ 08 GRANTS ══ -->
+<div class="section" id="grants">
+  <div class="sec-marker">
+    <span class="sec-n sun">08</span><div class="sec-line sun"></div>
+    <span class="sec-name sun">Grants · Funding the Build</span>
+  </div>
+  <h2 class="sec-title">The Money<br>Already Exists.</h2>
+  <p class="sec-deck">You are not pitching a greenhouse. You are pitching "a climate-resilient, water-efficient, aquaponic-supported food system for two households in a high-desert environment." Those words map directly onto active USDA program priorities. Use them.</p>
+
+  <div class="grant-block">
+    <div class="gb-label">Active Funding Paths · NM · 2026</div>
+    <div class="grant-row"><div class="gr-tag">P0 · APPLY NOW</div><div class="gr-text"><strong>USDA NRCS — EQIP High Tunnel Initiative</strong> — Best fit for Phase 0. Covers high tunnel structure, sometimes irrigation components. Typical award covers majority of Phase 0 costs. Build first, document, then apply — or apply concurrently.</div></div>
+    <div class="grant-row"><div class="gr-tag">COMMUNITY</div><div class="gr-text"><strong>USDA Urban Agriculture / Innovative Production</strong> — Aquaponics qualifies as "innovative production." Frame around food security, bilingual community access, and workforce development for maximum fit.</div></div>
+    <div class="grant-row"><div class="gr-tag">STATE</div><div class="gr-text"><strong>NM Dept of Agriculture — Specialty Crop + Sustainability</strong> — Smaller, faster, easier to win. Good for documentation and Phase 0 operational costs. Apply as soon as structure is up.</div></div>
+    <div class="grant-row"><div class="gr-tag">PHASE 1–2</div><div class="gr-text"><strong>USDA Rural Development — REAP</strong> — Renewable energy and efficiency upgrades. This is your solar PV funding path for Phase 1. Apply after Phase 0 is operational with production data.</div></div>
+    <div class="grant-row"><div class="gr-tag">LOCAL</div><div class="gr-text"><strong>Conservation Districts · Santa Fe County · Acequia Associations</strong> — Smaller awards. Higher relationship-to-outcome ratio. The NM Socialists network is the door opener. Lead with community food security and water efficiency.</div></div>
+  </div>
+
+  <div class="spec-block sun">
+    <div class="sb-title">The Language That Wins Grants</div>
+    <div class="spec-rows">
+      <div class="spec-row"><span class="sr-key">Don't say</span><span class="sr-val crit">"I want a greenhouse"</span></div>
+      <div class="spec-row"><span class="sr-key">Say</span><span class="sr-val good">"Climate-resilient, water-efficient aquaponic food system"</span></div>
+      <div class="spec-row"><span class="sr-key">Emphasize</span><span class="sr-val">Wind resilience, water conservation, year-round production</span></div>
+      <div class="spec-row"><span class="sr-key">Strategy sequence</span><span class="sr-val">Build → produce → document → THEN apply for more money</span></div>
+      <div class="spec-row"><span class="sr-key">Data that wins Phase 2 grants</span><span class="sr-val">Temp logs, crop yield, water use, fish production records</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<div class="paper-foot">
+  <div>
+    <div class="pf-brand">Sena's AI Collective</div>
+    <p style="font-family:var(--sans);font-size:13px;color:var(--dim);margin-top:6px;max-width:340px;line-height:1.6;">CGS-C1 is part of the SANGRE_KV1 open knowledge system. All specifications are open-source under Creative Commons CC-BY 4.0. Build it, improve it, share it.</p>
+  </div>
+  <div class="pf-meta">
+    CGS-C1 Engineering Spec · Vol. II<br>
+    Version: 1.0 · April 2026<br>
+    License: CC-BY 4.0 Open Source<br>
+    Authors: Salvador Sena + Sena's AI Collective<br>
+    Santa Fe County, New Mexico · 87508<br>
+    github.com/SalChicanoLoco
+  </div>
+</div>
+
+</div><!-- /page -->
 </body>
 </html>

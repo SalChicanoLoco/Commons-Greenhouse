@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CGS-C1 · Three Track Strategy</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;900&family=Barlow:wght@300;400;500&family=DM+Mono:wght@400;500&display=swap');
+:root{
+  --void:#0c0e09; --deep:#141a0f; --forest:#1d2a16;
+  --lime:#7ab83a; --sun:#f0c040; --rust:#c2603a;
+  --paper:#f4f0e4; --fog:rgba(244,240,228,0.6); --dim:rgba(244,240,228,0.3);
+  --rule:rgba(122,184,58,0.15);
+  --cond:'Barlow Condensed',sans-serif;
+  --sans:'Barlow',sans-serif;
+  --mono:'DM Mono',monospace;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{background:var(--void);color:var(--paper);font-family:var(--sans);font-size:15px;line-height:1.7;}
+.page{max-width:960px;margin:0 auto;padding:48px 32px 80px;}
+
+/* HEADER */
+.hdr{border-bottom:2px solid var(--lime);padding-bottom:24px;margin-bottom:48px;}
+.hdr-kicker{font-family:var(--mono);font-size:9px;letter-spacing:4px;color:var(--lime);text-transform:uppercase;margin-bottom:12px;}
+.hdr-title{font-family:var(--cond);font-size:clamp(36px,6vw,64px);font-weight:900;line-height:1;text-transform:uppercase;color:var(--paper);}
+.hdr-title span{color:var(--lime);}
+.hdr-sub{font-family:var(--sans);font-size:14px;color:var(--fog);margin-top:12px;max-width:600px;line-height:1.6;border-left:3px solid var(--rust);padding-left:14px;}
+
+/* TRACK HEADERS */
+.track{margin-bottom:56px;}
+.track-label{display:flex;align-items:center;gap:14px;margin-bottom:24px;}
+.tl-num{font-family:var(--mono);font-size:9px;color:var(--lime);letter-spacing:3px;}
+.tl-line{flex:1;height:1px;background:var(--rule);}
+.tl-name{font-family:var(--cond);font-size:11px;font-weight:700;letter-spacing:4px;text-transform:uppercase;color:var(--lime);}
+.tl-name.sun{color:var(--sun);}
+.tl-name.rust{color:var(--rust);}
+
+.track-title{font-family:var(--cond);font-size:clamp(24px,4vw,38px);font-weight:900;text-transform:uppercase;line-height:1.1;margin-bottom:10px;}
+.track-deck{font-size:14px;color:var(--fog);max-width:600px;margin-bottom:24px;line-height:1.65;}
+
+/* CARDS */
+.card-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:14px;margin-bottom:24px;}
+.card{background:var(--forest);border:1px solid var(--rule);padding:20px;border-top:3px solid var(--lime);}
+.card.sun{border-top-color:var(--sun);}
+.card.rust{border-top-color:var(--rust);}
+.card-label{font-family:var(--mono);font-size:8px;letter-spacing:2px;text-transform:uppercase;color:var(--lime);margin-bottom:8px;}
+.card.sun .card-label{color:var(--sun);}
+.card.rust .card-label{color:var(--rust);}
+.card-title{font-family:var(--cond);font-size:17px;font-weight:700;color:var(--paper);margin-bottom:8px;}
+.card-body{font-size:12px;color:var(--fog);line-height:1.6;}
+
+/* ACTION BOX */
+.action-box{background:var(--deep);border:1px solid var(--rule);border-left:4px solid var(--lime);padding:22px 26px;margin-bottom:20px;}
+.action-box.sun{border-left-color:var(--sun);}
+.action-box.rust{border-left-color:var(--rust);}
+.ab-label{font-family:var(--mono);font-size:8px;letter-spacing:3px;text-transform:uppercase;color:var(--lime);margin-bottom:12px;}
+.action-box.sun .ab-label{color:var(--sun);}
+.action-box.rust .ab-label{color:var(--rust);}
+.ab-body{font-size:13px;color:var(--fog);line-height:1.75;}
+.ab-body strong{color:var(--paper);font-family:var(--cond);font-size:14px;letter-spacing:0.3px;}
+
+/* SCRIPT BOX */
+.script-box{background:#0a0c08;border:1px solid var(--rule);padding:20px 24px;margin-top:14px;font-family:var(--mono);font-size:12px;color:var(--fog);line-height:1.9;border-radius:2px;}
+.script-box .name{color:var(--lime);font-weight:700;}
+.script-box .sun-name{color:var(--sun);font-weight:700;}
+
+/* DIVIDER */
+.divider{height:1px;background:var(--rule);margin:40px 0;}
+
+/* REMOTE NOTE */
+.remote-note{background:rgba(194,96,58,0.08);border:1px solid rgba(194,96,58,0.2);border-left:4px solid var(--rust);padding:18px 22px;margin-bottom:20px;}
+.rn-label{font-family:var(--mono);font-size:8px;letter-spacing:3px;text-transform:uppercase;color:var(--rust);margin-bottom:8px;}
+.rn-body{font-size:13px;color:var(--fog);line-height:1.7;}
+
+/* FOOTER */
+.footer{border-top:1px solid var(--rule);padding-top:24px;font-family:var(--mono);font-size:9px;color:var(--dim);letter-spacing:2px;text-transform:uppercase;display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px;}
+
+@media(max-width:600px){.page{padding:32px 18px 60px;}.footer{flex-direction:column;}}
+</style>
+</head>
+<body>
+<div class="page">
+
+  <!-- HEADER -->
+  <div class="hdr">
+    <div class="hdr-kicker">CGS-C1 · NM Socialists · Three-Track Strategy · April 2026</div>
+    <h1 class="hdr-title">THE <span>COMMONS</span><br>GREENHOUSE</h1>
+    <p class="hdr-sub">You built the research. You built the paper. Now here's how to move it into the world without giving it all away — through local press, a podcast seed, and Coffee With Commies.</p>
+  </div>
+
+  <!-- ── TRACK 01: LOCAL PUBLISHERS ── -->
+  <div class="track">
+    <div class="track-label">
+      <span class="tl-num">TRACK 01</span>
+      <div class="tl-line"></div>
+      <span class="tl-name">Local Publishers · The Tease, Not the Book</span>
+    </div>
+
+    <h2 class="track-title">Hit the Press.<br>Steer to the Seminar.</h2>
+    <p class="track-deck">You don't give away the full research. You give them a story angle that's irresistible — and every article ends with a door: the seminar. That's how you convert press into audience and audience into community.</p>
+
+    <div class="card-grid">
+      <div class="card">
+        <div class="card-label">Primary Target</div>
+        <div class="card-title">Santa Fe New Mexican</div>
+        <div class="card-body">Largest daily in NM. Their sustainability + food coverage is thin — you walk in with something real. Pitch as a community story, not a tech story. The angle: "Santa Fe family builds year-round food system for under $5k using passive solar and fish."</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Primary Target</div>
+        <div class="card-title">Searchlight New Mexico</div>
+        <div class="card-body">Investigative / solutions journalism nonprofit. They cover land rights, water, rural NM. This is a direct alignment with the SANGRE_KV1 angle — dispossession + community infrastructure. Strong fit. Pitch the deeper story.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Regional</div>
+        <div class="card-title">Albuquerque Journal</div>
+        <div class="card-body">Wider reach. More mainstream. Use this for the CGS-C1 community prototype angle — the Lone Butte / Santa Fe County location, the community garden partnerships, the replicable cell model. Numbers and phases work here.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Niche / Mission Aligned</div>
+        <div class="card-title">NM Political Report + La Jicarita</div>
+        <div class="card-body">La Jicarita covers NM acequia + land rights directly — your SANGRE layer is a natural fit. NM Political Report covers policy. Use these for the deeper structural argument: food sovereignty as political infrastructure.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Hyperlocal</div>
+        <div class="card-title">Pasatiempo / Local Weeklies</div>
+        <div class="card-body">Santa Fe's arts + culture weekly. Good for the Alicia angle — this is a love story about building something beautiful for someone you care about. Human interest + innovation = front page material for them.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Academic / Extension</div>
+        <div class="card-title">NMSU Extension + UNM Press</div>
+        <div class="card-body">NMSU Extension already cites the research you're using. A community-built pilot in 87508 is exactly what they want to document. UNM Press for longer form — eventually. Plant the seed now.</div>
+      </div>
+    </div>
+
+    <div class="action-box">
+      <div class="ab-label">The Pitch Frame — What You Send</div>
+      <div class="ab-body">
+        <strong>Subject:</strong> "A Santa Fe family is building a year-round food system for under $5k — and open-sourcing the design"<br><br>
+        You are not pitching a nonprofit. You are not pitching socialism. You are pitching a <strong>compelling local story</strong> with a real build, real math, real location, and a community angle. The ideology is in the design — you don't have to lead with it.<br><br>
+        Every pitch ends with: <em>"Salvador is available for a site visit once the prototype is underway, and is hosting a community seminar on the build methodology this summer. Details at senacolectivo.com."</em><br><br>
+        That's the steer. Article → seminar link → your audience.
+      </div>
+    </div>
+
+    <div class="remote-note">
+      <div class="rn-label">Remote-First Approach</div>
+      <div class="rn-body">You don't have a car. That's fine — all initial press outreach is email. When they want a site visit, that's when Alicia's location is the asset. You're the remote brain; she's the local face of the build. That's a better story anyway.</div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- ── TRACK 02: PODCAST ── -->
+  <div class="track">
+    <div class="track-label">
+      <span class="tl-num">TRACK 02</span>
+      <div class="tl-line"></div>
+      <span class="tl-name sun">NM Socialist Seed Podcast · Path of Least Resistance</span>
+    </div>
+
+    <h2 class="track-title" style="color:var(--sun)">The Greenhouse<br>Has a Microphone.</h2>
+    <p class="track-deck">The path of least resistance to a podcast is not a studio. It's a phone, a topic you know cold, and a 20-minute episode. CGS-C1 is your seed episode. Here's the whole pipeline — remote, bilingual, zero capital.</p>
+
+    <div class="card-grid">
+      <div class="card sun">
+        <div class="card-label">Episode 0 · The Seed</div>
+        <div class="card-title">"Build the Greenhouse First"</div>
+        <div class="card-body">15–20 min. Salvador solo or with Alicia. You walk through what you're building, why, and what it means for NM communities. This is the founding document in audio form. Record on your phone. Whisper → transcript → Spotify.</div>
+      </div>
+      <div class="card sun">
+        <div class="card-label">Format</div>
+        <div class="card-title">Bilingual Field Notes</div>
+        <div class="card-body">EN intro, ES block, EN conclusion. Or full bilingual weave. Short — 15–25 min max. This is not a talk show. It's a field dispatch. You're reporting from the build, from the research, from the land.</div>
+      </div>
+      <div class="card sun">
+        <div class="card-label">Distribution</div>
+        <div class="card-title">Spotify Podcasters (already live)</div>
+        <div class="card-body">You already have the Coffee With Commies infrastructure on Spotify Podcasters. The CGS podcast can live as a sister feed or a segment. China is your producer contact. One conversation gets this live.</div>
+      </div>
+    </div>
+
+    <div class="action-box sun">
+      <div class="ab-label">Minimum Viable Podcast — No Gear, No Money</div>
+      <div class="ab-body">
+        <strong>Step 1:</strong> Wispr → voice note your first episode script. Raw thoughts on the greenhouse, the land, the build.<br>
+        <strong>Step 2:</strong> Edit in Spotify Podcasters (built-in trimming) or send raw to China as producer.<br>
+        <strong>Step 3:</strong> Drop into existing Spotify feed OR create new show "SANGRE · Notas del Campo" — bilingual field notes.<br>
+        <strong>Step 4:</strong> Every episode links to the seminar registration page.<br><br>
+        <em>Total cost: $0. Total time: 2 hours for Episode 0.</em>
+      </div>
+    </div>
+
+    <div class="action-box sun">
+      <div class="ab-label">Episode Arc — First 6</div>
+      <div class="ab-body">
+        <strong>E01 —</strong> Why we're building a greenhouse in the desert (the love story + the politics)<br>
+        <strong>E02 —</strong> Phase 0: what we actually built, what broke, what worked<br>
+        <strong>E03 —</strong> Water rights 101 for NM communities (SANGRE_KV1 entry point)<br>
+        <strong>E04 —</strong> Fish, permits, and the state (tilapia saga)<br>
+        <strong>E05 —</strong> The compute connection — how AI infrastructure can feed people<br>
+        <strong>E06 —</strong> Interview: a local acequia mayordomo or NMSU extension agent
+      </div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- ── TRACK 03: COFFEE WITH COMMIES ── -->
+  <div class="track">
+    <div class="track-label">
+      <span class="tl-num">TRACK 03</span>
+      <div class="tl-line"></div>
+      <span class="tl-name rust">Coffee With Commies · Engagement + Field Visit</span>
+    </div>
+
+    <h2 class="track-title" style="color:var(--rust)">Bring Coffee<br>to the Greenhouse.</h2>
+    <p class="track-deck">You're a future guest on Coffee With Commies — that's confirmed. Now we use CGS-C1 to deepen that relationship and pull them up to Santa Fe County. You're remote; the greenhouse is the venue.</p>
+
+    <div class="remote-note">
+      <div class="rn-label">Your Constraint Is Real — Work With It</div>
+      <div class="rn-body">No car. Las Vegas NM last week was a stretch. So: your episode is remote — recorded, not live in studio. And when it comes to a field visit, they come to you. The greenhouse build is the draw. That's not a compromise — a working food system under construction in the high desert is a better visual than a studio couch.</div>
+    </div>
+
+    <div class="card-grid">
+      <div class="card rust">
+        <div class="card-label">Your Episode Angle</div>
+        <div class="card-title">"Food Is the Infrastructure"</div>
+        <div class="card-body">You're not just talking theory. You're building something. CGS-C1 is the proof-of-concept that socialist organizing produces material outcomes — food, fish, community capacity. That's the episode.</div>
+      </div>
+      <div class="card rust">
+        <div class="card-label">Field Episode</div>
+        <div class="card-title">CWC @ The Greenhouse</div>
+        <div class="card-body">Invite LeeAnn and Antonio to do a field episode at the Lone Butte build site once Phase 0 is up. They bring the mics, you bring the fish and the politics. Episode title: "Growing Socialism in the High Desert."</div>
+      </div>
+      <div class="card rust">
+        <div class="card-label">The Ask to China</div>
+        <div class="card-title">Producer Coordination</div>
+        <div class="card-body">China is the one to coordinate with. One message: "We want to do a CGS-C1 field episode at the build site. Salvador is remote but can do his segment over video. Can we schedule a site visit for LeeAnn and Antonio in late May/June?"</div>
+      </div>
+    </div>
+
+    <div class="action-box rust">
+      <div class="ab-label">Message to China — Draft (send via Messenger)</div>
+      <div class="ab-body">
+        <div class="script-box">
+<span class="name">To: China (CWC Producer)</span>
+
+Hey China — hope you're good. I'm working on something I want to bring into the CWC ecosystem.
+
+I'm building a community aquaponic greenhouse in Lone Butte — passive solar, earth-bermed, under $5k prototype. Open source, bilingual design. It's connected to the land rights and water research NM Socialists has been publishing.
+
+Two things I want to propose:
+1. My guest episode — I can do my segment remote (video call). Topic: food sovereignty as material organizing infrastructure.
+2. A field episode at the build site once Phase 0 is up (targeting late May / June). LeeAnn and Antonio come up to Santa Fe County. The greenhouse is the backdrop.
+
+I don't have a car so I can't make it to ABQ easily — but the mountain can come to Muhammad lol.
+
+Let me know if this works for the schedule.
+— Salvador
+        </div>
+      </div>
+    </div>
+
+    <div class="action-box rust">
+      <div class="ab-label">Seminar Connection — The Full Loop</div>
+      <div class="ab-body">
+        Press article → seminar link<br>
+        Podcast episode → seminar link<br>
+        CWC episode → seminar link<br><br>
+        <strong>The seminar is the conversion point.</strong> Every outreach track ends at the same door. You're not giving away the full research — you're giving people a reason to show up. The research lives at the seminar, and eventually in the full publication (La Biblioteca Vol. 8 — CGS Special Edition).
+      </div>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <div class="footer">
+    <span>CGS-C1 · Three Track Strategy · April 2026</span>
+    <span>NM Socialists Inc. · senacolectivo.com</span>
+    <span>built by Sena's AI Collective</span>
+  </div>
+
+</div>
+</body>
+</html>
